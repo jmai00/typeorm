@@ -117,7 +117,7 @@ export class DateUtils {
                 this.formatZerolessValue(value.getHours()) + ":" +
                 this.formatZerolessValue(value.getMinutes()) + ":" +
                 this.formatZerolessValue(value.getSeconds()) + "." +
-                this.formatMilliseconds(value.getUTCMilliseconds());
+                this.formatMilliseconds(value.getMilliseconds());
         }
 
         return value;
@@ -182,13 +182,20 @@ export class DateUtils {
     }
 
     /**
-     * Formats given number to "0x" format, e.g. if it is 1 then it will return "01".
+     * Formats given number to "0x" format, e.g.
+     * if it is 0 then it will return "000"
+     * if it is 10 then it will return "00x"
+     * if it is less than 100 it will return "0xx"
      */
     private static formatMilliseconds(value: number): string {
-        if (value < 100)
+        if (value === 0)
+            return "000";
+        else if (value < 10)
+            return "00" + value;
+        else if (value < 100)
             return "0" + value;
-
-        return String(value);
+        else
+            return String(value);
     }
 
 }
